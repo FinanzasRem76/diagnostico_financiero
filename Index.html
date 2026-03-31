@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Financiero Personal · Colombia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #0f1923;
+    --ink-2:     #3a4a57;
+    --ink-3:     #7a8d9a;
+    --surface:   #f5f3ee;
+    --card:      #ffffff;
+    --line:      #e2ddd6;
+    --accent:    #1a3a5c;
+    --accent-2:  #2e6da4;
+    --gold:      #c6972a;
+    --green:     #1e6b3e;
+    --green-bg:  #eaf4ef;
+    --amber:     #a05f10;
+    --amber-bg:  #fdf3e3;
+    --red:       #b02525;
+    --red-bg:    #fdeaea;
+    --radius:    12px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--accent);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.04);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 30%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.03);
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    margin-bottom: .75rem;
+    color: rgba(255,255,255,.85);
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: .4rem;
+  }
+  header p {
+    font-size: 14px;
+    color: rgba(255,255,255,.65);
+    max-width: 480px;
+  }
+
+  /* ── LAYOUT ── */
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+  /* ── SECTION TITLES ── */
+  .section-head {
+    display: flex; align-items: center; gap: 10px;
+    margin: 2.25rem 0 1rem;
+  }
+  .section-head .num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem; font-weight: 400;
+    color: var(--accent);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: .75rem;
+  }
+  .card-title {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-3);
+    margin-bottom: .85rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ── FIELD GRID ── */
+  .field-grid { display: grid; gap: .85rem; grid-template-columns: 1fr; }
+  @media(min-width:600px){ .field-grid { grid-template-columns: 1fr 1fr; } }
+
+  .field label {
+    display: block;
+    font-size: 12px; font-weight: 500;
+    color: var(--ink-2);
+    margin-bottom: 4px;
+  }
+  .field .hint {
+    font-size: 11px; color: var(--ink-3);
+    margin-bottom: 5px; display: block;
+  }
+  .field .input-wrap {
+    display: flex; align-items: center;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    transition: border-color .18s;
+    overflow: hidden;
+  }
+  .field .input-wrap:focus-within {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 3px rgba(46,109,164,.1);
+  }
+  .field .prefix {
+    padding: 0 10px;
+    font-size: 12px; font-weight: 600;
+    color: var(--ink-3);
+    background: #f9f8f6;
+    border-right: 1px solid var(--line);
+    height: 40px;
+    display: flex; align-items: center;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+  }
+  .field input {
+    border: none; outline: none;
+    padding: 0 12px;
+    height: 40px; width: 100%;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink);
+    background: transparent;
+  }
+  .field input::placeholder { color: #ccc; font-weight: 400; }
+
+  /* ── CTA BUTTON ── */
+  .btn-calc {
+    display: block; width: 100%;
+    margin: 1.75rem 0 0;
+    padding: 1rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    border: none; border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    letter-spacing: .02em;
+    cursor: pointer;
+    transition: background .18s, transform .1s;
+    position: relative; overflow: hidden;
+  }
+  .btn-calc:hover { background: var(--accent-2); }
+  .btn-calc:active { transform: scale(.99); }
+
+  /* ── RESULTS SECTION ── */
+  #results { display: none; }
+  #results.visible { display: block; animation: fadeUp .4s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCORE SUMMARY ── */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  @media(max-width:500px){ .score-grid { grid-template-columns: repeat(2,1fr); } }
+  .score-tile {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem;
+    text-align: center;
+  }
+  .score-tile .st-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.9rem; line-height: 1;
+    margin-bottom: .2rem;
+  }
+  .score-tile .st-lbl {
+    font-size: 11px; color: var(--ink-3); font-weight: 500;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+
+  /* ── INDEX CARDS ── */
+  .indices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .idx {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem 1rem;
+    position: relative;
+    transition: box-shadow .18s;
+  }
+  .idx:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+  .idx-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 8px;
+    margin-bottom: .5rem;
+  }
+  .idx-name {
+    font-size: 12px; font-weight: 500;
+    color: var(--ink-2); line-height: 1.35;
+  }
+  .semaforo {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+    font-weight: 700;
+  }
+  .s-green { background: var(--green-bg); color: var(--green); }
+  .s-amber { background: var(--amber-bg); color: var(--amber); }
+  .s-red   { background: var(--red-bg);   color: var(--red); }
+  .s-gray  { background: #f0f0f0; color: #999; }
+
+  .idx-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.55rem; line-height: 1; color: var(--ink);
+    margin-bottom: .3rem;
+  }
+  .idx-range {
+    font-size: 10.5px; color: var(--ink-3);
+    background: #f5f3ee;
+    border-radius: 4px; padding: 2px 7px;
+    display: inline-block; margin-bottom: .5rem;
+  }
+
+  /* Descripción corta del índice */
+  .idx-desc {
+    font-size: 11px; color: var(--ink-3);
+    line-height: 1.45; margin-bottom: .45rem;
+    font-style: italic;
+  }
+
+  /* Barra segmentada con zonas de color */
+  .idx-bar-wrap {
+    position: relative;
+    height: 8px; border-radius: 4px;
+    display: flex; margin: .35rem 0 1rem;
+    overflow: visible;
+  }
+  .idx-bar-wrap.bar-off { opacity: .3; pointer-events: none; }
+  .bar-z { height: 100%; min-width: 0; }
+  .bar-z:first-child { border-radius: 4px 0 0 4px; }
+  .bar-z:last-child  { border-radius: 0 4px 4px 0; }
+  .bz-g { background: #5fa85f; }
+  .bz-a { background: #d09030; }
+  .bz-r { background: #c95c5c; }
+
+  /* Líneas blancas en los límites de rango */
+  .bar-vline {
+    position: absolute; top: 0; bottom: 0;
+    width: 2px; background: rgba(255,255,255,.8);
+    transform: translateX(-50%); border-radius: 1px;
+    pointer-events: none;
+  }
+
+  /* Triángulo verde que marca el valor ideal */
+  .bar-ideal {
+    position: absolute; top: -8px;
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid var(--green);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  /* Aguja negra = valor actual del usuario */
+  .bar-needle {
+    position: absolute; top: -5px; bottom: -5px;
+    width: 2px; transform: translateX(-50%);
+    z-index: 4; pointer-events: none;
+  }
+  .bar-needle-line {
+    width: 2px; height: 100%;
+    background: var(--ink); border-radius: 1px;
+  }
+  .bar-needle::after {
+    content: '';
+    position: absolute; top: -1px;
+    left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px;
+    border-radius: 50%; background: var(--ink);
+  }
+
+  /* Leyenda de la barra */
+  .bar-legend {
+    display: flex; justify-content: space-between;
+    font-size: 9.5px; color: var(--ink-3);
+    font-family: 'DM Mono', monospace;
+    margin-top: -8px; margin-bottom: .5rem;
+  }
+
+  .idx-rec {
+    margin-top: .6rem;
+    font-size: 11.5px; color: var(--ink-2); line-height: 1.5;
+    padding-top: .55rem;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Alert anomaly */
+  .anomaly-box {
+    background: var(--amber-bg);
+    border-left: 3px solid var(--gold);
+    border-radius: 0;
+    padding: .7rem 1rem;
+    font-size: 12.5px; color: var(--amber);
+    margin-bottom: 1rem; line-height: 1.55;
+  }
+
+  /* Reset btn */
+  .btn-reset {
+    margin-top: 2rem;
+    padding: .7rem 1.5rem;
+    border: 1.5px solid var(--line);
+    background: transparent;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: var(--ink-2); cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .btn-reset:hover { border-color: var(--accent); color: var(--accent); background: #f0f5fb; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px; color: var(--ink-3);
+    border-top: 1px solid var(--line);
+    margin-top: 2rem;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: rgba(255,255,255,.07);
+    border-top: 1px solid rgba(255,255,255,.1);
+    margin-top: 1.5rem;
+    padding: .75rem 0 0;
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .stat-icon {
+    font-size: 14px; opacity: .7;
+  }
+  .stat-body {}
+  .stat-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem; font-weight: 500;
+    color: #fff; line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 10px; color: rgba(255,255,255,.5);
+    text-transform: uppercase; letter-spacing: .07em;
+  }
+  .stat-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80; margin-right: -4px;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .5; transform: scale(.75); }
+  }
+
+  /* ── ADMIN PANEL (oculto por defecto, activar con ?admin=1) ── */
+  .admin-panel {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .admin-panel.visible { display: block; }
+  .admin-title {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--ink-3);
+    margin-bottom: 1rem; padding-bottom: .5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .admin-tile {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: .85rem 1rem;
+    text-align: center;
+  }
+  .admin-tile .at-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; line-height: 1; color: var(--accent);
+    margin-bottom: .2rem;
+  }
+  .admin-tile .at-lbl {
+    font-size: 11px; color: var(--ink-3);
+    font-weight: 500; text-transform: uppercase; letter-spacing: .06em;
+  }
+  .admin-tile .at-sub {
+    font-size: 10px; color: var(--ink-3); margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="header-badge">CFP · Colombia</span>
+    <h1>Diagnóstico Financiero<br><em>Personal</em></h1>
+    <p>Ingresa tus datos y obtén un análisis completo de tus 12 índices financieros clave en segundos.</p>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-dot"></span>
+        <div class="stat-body">
+          <div class="stat-val" id="stat-visitas">–</div>
+          <div class="stat-lbl">Visitas totales</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">📊</span>
+        <div class="stat-body">
+          <div class="stat-val" id="stat-calculos">–</div>
+          <div class="stat-lbl">Diagnósticos realizados</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">🇨🇴</span>
+        <div class="stat-body">
+          <div class="stat-val">Gratis</div>
+          <div class="stat-lbl">Sin registro · Sin datos personales</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Panel de administración (visible con ?admin=1 en la URL) -->
+  <div class="admin-panel" id="admin-panel">
+    <div class="admin-title">📈 Panel de métricas — solo visible con ?admin=1</div>
+    <div class="admin-grid">
+      <div class="admin-tile">
+        <div class="at-val" id="adm-visitas">–</div>
+        <div class="at-lbl">Visitas totales</div>
+        <div class="at-sub">desde el lanzamiento</div>
+      </div>
+      <div class="admin-tile">
+        <div class="at-val" id="adm-calculos">–</div>
+        <div class="at-lbl">Diagnósticos</div>
+        <div class="at-sub">veces que se calculó</div>
+      </div>
+      <div class="admin-tile">
+        <div class="at-val" id="adm-conv">–</div>
+        <div class="at-lbl">Tasa de conversión</div>
+        <div class="at-sub">visitas → diagnóstico</div>
+      </div>
+      <div class="admin-tile">
+        <div class="at-val" id="adm-hoy">–</div>
+        <div class="at-lbl">Sesión actual</div>
+        <div class="at-sub">diagnósticos esta sesión</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FORMULARIO DE ENTRADA
+  ═══════════════════════════════════════ -->
+  <div id="form-section">
+
+    <!-- A. INGRESOS -->
+    <div class="section-head">
+      <span class="num">A</span>
+      <h2>Ingresos mensuales</h2>
+    </div>
+    <div class="card">
+      <div class="card-title">Todos tus ingresos netos mensuales (después de impuestos)</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Ingreso principal (salario / honorarios)</label>
+          <span class="hint">Neto, después de retención y seguridad social</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="ing_principal" placeholder="5000000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Ingresos adicionales</label>
+          <span class="hint">Arriendos, freelance, comisiones</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="ing_adicional" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Ingresos por inversiones</label>
+          <span class="hint">Dividendos, intereses de CDTs, rendimientos</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="ing_inversiones" placeholder="0" min="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B. GASTOS -->
+    <div class="section-head">
+      <span class="num">B</span>
+      <h2>Gastos mensuales</h2>
+    </div>
+    <div class="card">
+      <div class="card-title">Gastos de vida recurrentes (sin incluir cuotas de deuda)</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Vivienda (arriendo o cuota hipotecaria)</label>
+          <span class="hint">Solo el pago de vivienda</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_vivienda" placeholder="1200000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Servicios públicos y telefonía</label>
+          <span class="hint">Agua, luz, gas, internet, celular</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_servicios" placeholder="250000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Cuota de administración</label>
+          <span class="hint">Adm. del conjunto o edificio (mensual)</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_adm" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Impuestos</label>
+          <span class="hint">Predial prorrateado al mes</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_imp" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Alimentación y mercado</label>
+          <span class="hint">Supermercado + restaurantes</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_alimentos" placeholder="600000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Transporte</label>
+          <span class="hint">Gasolina, SITP, Uber, peajes</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_transporte" placeholder="300000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Salud</label>
+          <span class="hint">Medicina prepagada, médicos, medicamentos</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_salud" placeholder="150000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Educación</label>
+          <span class="hint">Colegios, universidades, cursos</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_educacion" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Entretenimiento y estilo de vida</label>
+          <span class="hint">Ocio, ropa, suscripciones, salidas</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_ocio" placeholder="200000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Otros gastos</label>
+          <span class="hint">Cualquier gasto no clasificado arriba</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="gasto_otros" placeholder="100000" min="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C. DEUDAS -->
+    <div class="section-head">
+      <span class="num">C</span>
+      <h2>Deudas y créditos</h2>
+    </div>
+    <div class="card">
+      <div class="card-title">Cuotas mensuales y saldos vigentes</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Cuota hipotecaria mensual</label>
+          <span class="hint">Solo la cuota, no el saldo total</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="cuota_hipoteca" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Cuota vehículo mensual</label>
+          <span class="hint">Crédito o leasing de vehículo</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="cuota_vehiculo" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Cuota libre inversión / consumo</label>
+          <span class="hint">Crédito de libre inversión</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="cuota_libre" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Pago mínimo tarjetas de crédito</label>
+          <span class="hint">Suma de mínimos de todas tus tarjetas</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="cuota_tc" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Otras cuotas de deuda</label>
+          <span class="hint">Libranzas, cooperativas, gota a gota</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="cuota_otras" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Saldo total tarjetas de crédito</label>
+          <span class="hint">Monto que debes actualmente en TC</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="saldo_tc" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Cupo total tarjetas de crédito</label>
+          <span class="hint">Límite aprobado total de todas tus TC</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="limite_tc" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Pasivos totales (todas las deudas)</label>
+          <span class="hint">Suma de todos los saldos pendientes</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="pasivos_totales" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Pasivos corrientes (deudas a &lt;1 año)</label>
+          <span class="hint">Lo que debes pagar en los próximos 12 meses</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="pasivos_cp" placeholder="0" min="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D. ACTIVOS -->
+    <div class="section-head">
+      <span class="num">D</span>
+      <h2>Activos</h2>
+    </div>
+    <div class="card">
+      <div class="card-title">Todo lo que posees (valor de mercado actual)</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Efectivo y cuentas bancarias</label>
+          <span class="hint">Saldo disponible en cuentas hoy</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="activo_efectivo" placeholder="500000" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Inversiones financieras</label>
+          <span class="hint">CDTs, acciones, fondos, bonos (valor actual)</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="activo_inversiones" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Cesantías (saldo AFP)</label>
+          <span class="hint">Extracto actual de tu fondo de cesantías</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="activo_cesantias" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Inmuebles (avalúo comercial)</label>
+          <span class="hint">Valor de venta estimado en el mercado</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="activo_inmuebles" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Vehículos</label>
+          <span class="hint">Precio de venta actual en el mercado</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="activo_vehiculos" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Otros activos</label>
+          <span class="hint">Joyas, arte, negocios, maquinaria</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="activo_otros" placeholder="0" min="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E. AHORRO E INVERSIONES -->
+    <div class="section-head">
+      <span class="num">E</span>
+      <h2>Ahorro e inversiones</h2>
+    </div>
+    <div class="card">
+      <div class="card-title">Aportes y rendimientos</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Ahorro mensual neto</label>
+          <span class="hint">Lo que realmente guardas cada mes</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="ahorro_mensual" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Fondo de emergencia (saldo)</label>
+          <span class="hint">Ahorros exclusivos para emergencias</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="fondo_emergencia" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Aporte mensual a pensión voluntaria / AFC</label>
+          <span class="hint">Solo aportes voluntarios adicionales</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="aporte_pension" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Valor INICIAL del portafolio de inversión</label>
+          <span class="hint">Cuánto invertiste al comienzo</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="inv_inicial" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Valor ACTUAL del portafolio de inversión</label>
+          <span class="hint">Valor de mercado hoy</span>
+          <div class="input-wrap"><span class="prefix">$</span><input type="number" id="inv_actual" placeholder="0" min="0"></div>
+        </div>
+        <div class="field">
+          <label>Años que llevas invertido</label>
+          <span class="hint">Tiempo transcurrido desde la inversión inicial</span>
+          <div class="input-wrap"><span class="prefix">Años</span><input type="number" id="inv_anos" placeholder="1" min="0.1" step="0.5"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="calcular()">
+      Calcular mis 12 índices →
+    </button>
+
+  </div><!-- /form-section -->
+
+  <!-- ═══════════════════════════════════════
+       RESULTADOS
+  ═══════════════════════════════════════ -->
+  <div id="results">
+
+    <div class="section-head">
+      <span class="num" style="background:var(--green);">✓</span>
+      <h2>Tu diagnóstico financiero</h2>
+    </div>
+
+    <!-- Resumen global -->
+    <div class="score-grid">
+      <div class="score-tile">
+        <div class="st-val" id="res-score" style="color:var(--ink);">—</div>
+        <div class="st-lbl">Puntaje global</div>
+      </div>
+      <div class="score-tile">
+        <div class="st-val" id="res-green" style="color:var(--green);">—</div>
+        <div class="st-lbl">Saludables ✅</div>
+      </div>
+      <div class="score-tile">
+        <div class="st-val" id="res-amber" style="color:var(--amber);">—</div>
+        <div class="st-lbl">Moderados ⚠️</div>
+      </div>
+      <div class="score-tile">
+        <div class="st-val" id="res-red" style="color:var(--red);">—</div>
+        <div class="st-lbl">Críticos ❌</div>
+      </div>
+    </div>
+
+    <!-- Contenedor de los 12 índices -->
+    <div class="indices-grid" id="indices-container"></div>
+
+    <button class="btn-reset" onclick="resetForm()">← Modificar mis datos</button>
+
+  </div><!-- /results -->
+
+</main>
+
+<footer>
+  Diagnóstico Financiero Personal · Colombia &nbsp;·&nbsp;
+  Herramienta orientativa. Consulta con un CFP certificado para decisiones importantes.
+</footer>
+
+<script>
+// ─── Contadores (CountAPI — gratuito, sin registro) ────────
+const NS  = 'dfp-colombia-mvp-2025';
+const API = 'https://api.countapi.xyz';
+let sesionCalculos = 0;
+
+async function hitCounter(key) {
+  try {
+    const r = await fetch(`${API}/hit/${NS}/${key}`);
+    const d = await r.json();
+    return d.value || 0;
+  } catch { return null; }
+}
+
+async function getCounter(key) {
+  try {
+    const r = await fetch(`${API}/get/${NS}/${key}`);
+    const d = await r.json();
+    return d.value || 0;
+  } catch { return null; }
+}
+
+function numFmt(n) {
+  if (n === null) return '–';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'k';
+  return n.toString();
+}
+
+async function initCounters() {
+  // Registrar visita
+  const visitas = await hitCounter('visitas');
+  const calculos = await getCounter('calculos');
+
+  // Actualizar header stats
+  document.getElementById('stat-visitas').textContent  = numFmt(visitas);
+  document.getElementById('stat-calculos').textContent = numFmt(calculos);
+
+  // Panel admin
+  const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
+  if (isAdmin) {
+    document.getElementById('admin-panel').classList.add('visible');
+    document.getElementById('adm-visitas').textContent  = numFmt(visitas);
+    document.getElementById('adm-calculos').textContent = numFmt(calculos);
+    const conv = visitas > 0 ? ((calculos / visitas) * 100).toFixed(1) + '%' : '–';
+    document.getElementById('adm-conv').textContent = conv;
+    document.getElementById('adm-hoy').textContent  = sesionCalculos;
+  }
+}
+
+async function registrarCalculo() {
+  sesionCalculos++;
+  const calculos = await hitCounter('calculos');
+  document.getElementById('stat-calculos').textContent = numFmt(calculos);
+  const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
+  if (isAdmin) {
+    document.getElementById('adm-calculos').textContent = numFmt(calculos);
+    document.getElementById('adm-hoy').textContent = sesionCalculos;
+    const v = parseInt(document.getElementById('adm-visitas').textContent) || 0;
+    if (v > 0) document.getElementById('adm-conv').textContent =
+      ((calculos / v) * 100).toFixed(1) + '%';
+  }
+}
+
+// Inicializar al cargar
+window.addEventListener('load', initCounters);
+
+// ─── Helpers ───────────────────────────────────────────────
+const g = id => parseFloat(document.getElementById(id).value) || 0;
+const fmt = n => new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(n);
+const fmtPct = n => n.toFixed(1) + '%';
+const fmtRatio = n => n.toFixed(2) + '×';
+
+function semaforo(status) {
+  if (status === 'green') return { cls: 's-green', icon: '✅', label: 'Saludable',   fillCls: 'fill-green' };
+  if (status === 'amber') return { cls: 's-amber', icon: '⚠️', label: 'Moderado',    fillCls: 'fill-amber' };
+  if (status === 'red')   return { cls: 's-red',   icon: '❌', label: 'Crítico',     fillCls: 'fill-red'   };
+  return { cls: 's-gray', icon: '—', label: 'Sin datos', fillCls: 'fill-green' };
+}
+
+// barWidth: 0–100 for visual purpose
+function barWidth(val, max, invert) {
+  if (max === 0) return 0;
+  const pct = Math.min(Math.abs(val) / max * 100, 100);
+  return invert ? 100 - pct : pct;
+}
+
+// ─── CÁLCULO PRINCIPAL ─────────────────────────────────────
+function calcular() {
+  // == Leer inputs ==
+  const ing_total   = g('ing_principal') + g('ing_adicional') + g('ing_inversiones');
+  const gv          = g('gasto_vivienda');
+  const gasto_op    = gv + g('gasto_servicios') + g('gasto_adm') + g('gasto_imp') + g('gasto_alimentos') +
+                      g('gasto_transporte') + g('gasto_salud') +
+                      g('gasto_educacion')  + g('gasto_ocio') + g('gasto_otros');
+  const deuda_mes   = g('cuota_hipoteca') + g('cuota_vehiculo') +
+                      g('cuota_libre')    + g('cuota_tc') + g('cuota_otras');
+  const gasto_total = gasto_op + deuda_mes;
+  const saldo_tc    = g('saldo_tc');
+  const limite_tc   = g('limite_tc');
+  const pas_tot     = g('pasivos_totales') + saldo_tc;
+  const pas_cp      = g('pasivos_cp');
+  const act_liq     = g('activo_efectivo') + g('activo_inversiones') + g('activo_cesantias');
+  const act_tot     = act_liq + g('activo_inmuebles') + g('activo_vehiculos') + g('activo_otros');
+  const ahorro      = g('ahorro_mensual');
+  const fondo_emerg = g('fondo_emergencia');
+  const pension     = g('aporte_pension');
+  const inv_ini     = g('inv_inicial');
+  const inv_act     = g('inv_actual');
+  const inv_anos    = g('inv_anos') || 1;
+
+  // == Calcular 12 índices ==
+  const i1_patrimonio  = act_tot - pas_tot;
+  const i2_ahorro      = ing_total > 0 ? ahorro / ing_total * 100 : 0;
+  const i3_dti         = ing_total > 0 ? deuda_mes / ing_total * 100 : 0;
+  const i4_emergencia  = gasto_op > 0 ? fondo_emerg / gasto_op : 0;
+  const i5_tc          = limite_tc > 0 ? saldo_tc / limite_tc * 100 : 0;
+  const i6_flujo       = ing_total - gasto_total;
+  const i7_vivienda    = ing_total > 0 ? (gv + g('gasto_servicios') + g('gasto_adm') + g('gasto_imp')) / ing_total * 100 : 0;
+  const i8_liquidez    = pas_cp > 0 ? act_liq / pas_cp : (act_liq > 0 ? 99 : 0);
+  const i9_cagr        = (inv_ini > 0 && inv_act > 0)
+                          ? (Math.pow(inv_act / inv_ini, 1 / inv_anos) - 1) * 100 : 0;
+  const i10_deuda_act  = act_tot > 0 ? pas_tot / act_tot * 100 : 0;
+  const i11_jubilacion = ing_total > 0 ? pension / ing_total * 100 : 0;
+  const i12_ig         = gasto_total > 0 ? ing_total / gasto_total : 0;
+
+  // == Evaluación de estado ==
+  const s1 = (() => {
+    if (i1_patrimonio < 0) return 'red';
+    if (i1_patrimonio >= ing_total * 12 * 3) return 'green';
+    if (i1_patrimonio >= ing_total * 12) return 'amber';
+    return 'red';
+  })();
+  const s2  = i2_ahorro >= 20 ? 'green' : i2_ahorro >= 10 ? 'amber' : 'red';
+  const s3  = i3_dti < 30 ? 'green' : i3_dti <= 40 ? 'amber' : 'red';
+  const s4  = i4_emergencia >= 6 ? 'green' : i4_emergencia >= 3 ? 'amber' : 'red';
+  const s5  = limite_tc === 0 ? 'gray' :
+              i5_tc < 30 ? 'green' : i5_tc <= 50 ? 'amber' : 'red';
+  const s6  = i6_flujo > 0 ? 'green' : i6_flujo === 0 ? 'amber' : 'red';
+  const s7  = i7_vivienda < 30 ? 'green' : i7_vivienda <= 40 ? 'amber' : 'red';
+  const s8  = i8_liquidez >= 1 ? 'green' : i8_liquidez >= 0.5 ? 'amber' : 'red';
+  const s9  = inv_ini === 0 ? 'gray' :
+              i9_cagr >= 10 ? 'green' : i9_cagr >= 5 ? 'amber' : 'red';
+  const s10 = i10_deuda_act < 40 ? 'green' : i10_deuda_act <= 60 ? 'amber' : 'red';
+  const s11 = i11_jubilacion >= 15 ? 'green' : i11_jubilacion >= 5 ? 'amber' : 'red';
+  const s12 = i12_ig > 1.2 ? 'green' : i12_ig >= 1 ? 'amber' : 'red';
+
+  const estados = [s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12];
+  const nGreen  = estados.filter(s => s === 'green').length;
+  const nAmber  = estados.filter(s => s === 'amber').length;
+  const nRed    = estados.filter(s => s === 'red').length;
+  const score   = Math.round((nGreen * 10 + nAmber * 5) /
+                    Math.max(estados.filter(s => s !== 'gray').length, 1));
+
+  // == Recomendaciones ==
+  const recs = {
+    green: [
+      '¡Excelente! Tu patrimonio supera 3× tu ingreso anual. Protégelo con diversificación.',
+      '¡Muy bien! Ahorras más del 20%. Dirige el excedente a inversiones diversificadas.',
+      'Tu nivel de deuda es saludable. No adquieras nuevas obligaciones sin analizar.',
+      'Tienes más de 6 meses cubiertos. Considera invertir el excedente del fondo.',
+      'Usas menos del 30% del cupo. Tu score en DataCrédito se beneficia de esto.',
+      'Tienes flujo positivo. Automatiza el excedente hacia inversiones o ahorro.',
+      'Tu gasto en vivienda es sostenible. Mantén esta disciplina.',
+      'Puedes cubrir tus deudas de corto plazo con activos líquidos. Bien.',
+      'Tu portafolio crece por encima del 10% anual. Mantén la estrategia.',
+      'Nivel de apalancamiento adecuado. Sigue reduciendo deuda gradualmente.',
+      'Aportas el 15%+ a jubilación. Excelente. Revisa el perfil de riesgo del fondo.',
+      'Tus ingresos superan claramente tus gastos. Zona de tranquilidad financiera.',
+    ],
+    amber: [
+      'Patrimonio entre 1× y 3× tu ingreso anual. Reduce pasivos o aumenta activos.',
+      'Ahorras entre 10–19%. Identifica un gasto reducible para superar el 20%.',
+      'DTI entre 30–40%. No adquieras más deuda. Abona a capital cuando puedas.',
+      'Tienes 3–5 meses cubiertos. Meta: llegar a 6 meses de gastos operativos.',
+      'Utilizas 30–50% del cupo. Intenta bajar el saldo este mes para mejorar tu score.',
+      'Flujo en cero. Revisa gastos no esenciales para generar excedente.',
+      'Gastas 30–40% en vivienda. Límite aceptable, pero no tiene margen de error.',
+      'Liquidez ajustada. Evita nuevas deudas de corto plazo por ahora.',
+      'CAGR entre 5–10%. Evalúa diversificar hacia fondos de mayor retorno.',
+      'Deuda entre 40–60% de activos. Trabaja en reducir pasivos este año.',
+      'Aportas 5–14% a jubilación. Increméntalo en $50.000 cada trimestre.',
+      'Margen ajustado. Busca reducir 1 gasto fijo o generar un ingreso adicional.',
+    ],
+    red: [
+      'Patrimonio negativo o muy bajo. Prioridad: saldar deudas y no adquirir activos con deuda.',
+      'Ahorras menos del 10%. Crea un presupuesto hoy con la regla 50-30-20.',
+      'DTI crítico (>40%). Busca reestructurar o consolidar deudas urgentemente.',
+      'Sin fondo de emergencia. Separa hoy una cuenta exclusiva y aporta diariamente.',
+      'Utilizas más del 50% del cupo. Las TC cobran hasta 30% EA. Paga más del mínimo.',
+      'Flujo negativo. Gastas más de lo que ganas. Situación insostenible a corto plazo.',
+      'Gastas >40% en vivienda. Considera subarrendar o buscar alternativa más económica.',
+      'Liquidez crítica (<0.5). Tienes riesgo de no poder pagar obligaciones inmediatas.',
+      'Rentabilidad por debajo del 5%. Tu dinero pierde valor real frente a la inflación.',
+      'Más del 60% de tus activos son deuda. Vende activos de bajo rendimiento para sanear.',
+      'Sin ahorro para jubilación. Abre una AFC o pensión voluntaria esta semana.',
+      'Gastas más de lo que ganas. Acción inmediata: corta 3 gastos no esenciales hoy.',
+    ],
+  };
+
+  const getRec = (status, idx) => {
+    if (status === 'gray') return 'Ingresa los datos de tarjeta de crédito para calcular este índice.';
+    return recs[status][idx];
+  };
+
+  // == Helper: barra segmentada ==
+  function bPos(v, mn, mx) { return Math.min(Math.max((v - mn) / (mx - mn) * 100, 0), 100); }
+
+  function makeBar(v, mn, mx, t1, t2, dir, disabled) {
+    if (disabled) return '<div class="idx-bar-wrap bar-off"><div class="bar-z bz-r" style="width:100%"></div></div>';
+    const t1p = bPos(t1, mn, mx), t2p = bPos(t2, mn, mx), vp = bPos(v, mn, mx);
+    const w1 = t1p, w2 = t2p - t1p, w3 = 100 - t2p;
+    const [c1, c3] = dir === 'h' ? ['bz-r','bz-g'] : ['bz-g','bz-r'];
+    const idealPct = dir === 'h' ? t2p : t1p;
+    const s1  = w1 > 0.5 ? `<div class="bar-z ${c1}" style="width:${w1.toFixed(2)}%"></div>` : '';
+    const sA  = w2 > 0.5 ? `<div class="bar-z bz-a"  style="width:${w2.toFixed(2)}%"></div>` : '';
+    const s3  = w3 > 0.5 ? `<div class="bar-z ${c3}" style="width:${w3.toFixed(2)}%"></div>` : '';
+    const vl1 = (t1p > 1 && t1p < 99)            ? `<div class="bar-vline"  style="left:${t1p.toFixed(1)}%"></div>` : '';
+    const vl2 = (t2p > 1 && t2p < 99 && w2 > 0.5)? `<div class="bar-vline"  style="left:${t2p.toFixed(1)}%"></div>` : '';
+    return `
+      <div class="idx-bar-wrap">
+        ${s1}${sA}${s3}
+        ${vl1}${vl2}
+        <div class="bar-ideal" style="left:${idealPct.toFixed(1)}%"></div>
+        <div class="bar-needle" style="left:${vp.toFixed(1)}%"><div class="bar-needle-line"></div></div>
+      </div>`;
+  }
+
+  // == Definición de los índices para renderizar ==
+  const ann = ing_total * 12;
+  const indices = [
+    {
+      num: 1, name: 'Patrimonio Neto',
+      val: '$' + fmt(i1_patrimonio), status: s1,
+      range: '✅ ≥3× ing. anual  ⚠️ 1-2×  ❌ <1×',
+      desc: 'Diferencia entre todo lo que posees y todo lo que debes. Es la medida más completa de tu riqueza real.',
+      bc: { v: i1_patrimonio, mn: 0, mx: Math.max(ann * 3.3, Math.abs(i1_patrimonio) * 1.2, 10000000), t1: ann, t2: ann * 3, dir: 'h' }
+    },
+    {
+      num: 2, name: 'Tasa de Ahorro',
+      val: fmtPct(i2_ahorro), status: s2,
+      range: '✅ ≥20%  ⚠️ 10-19%  ❌ <10%',
+      desc: 'Porcentaje del ingreso mensual que conviertes en riqueza futura. A mayor tasa, más rápido construyes patrimonio.',
+      bc: { v: i2_ahorro, mn: 0, mx: 30, t1: 10, t2: 20, dir: 'h' }
+    },
+    {
+      num: 3, name: 'DTI – Deuda a Ingresos',
+      val: fmtPct(i3_dti), status: s3,
+      range: '✅ <30%  ⚠️ 30-40%  ❌ >40%',
+      desc: 'Fracción del ingreso comprometida en cuotas de deuda. Las entidades financieras colombianas lo usan para aprobar créditos.',
+      bc: { v: i3_dti, mn: 0, mx: 60, t1: 30, t2: 40, dir: 'l' }
+    },
+    {
+      num: 4, name: 'Fondo de Emergencia',
+      val: i4_emergencia.toFixed(1) + ' meses', status: s4,
+      range: '✅ 6-12m  ⚠️ 3-5m  ❌ <3m',
+      desc: 'Meses de gastos que podrías cubrir sin ningún ingreso. Tu escudo ante desempleo, enfermedad o imprevistos.',
+      bc: { v: i4_emergencia, mn: 0, mx: 12, t1: 3, t2: 6, dir: 'h' }
+    },
+    {
+      num: 5, name: 'Utilización de Crédito',
+      val: s5 === 'gray' ? 'Sin datos' : fmtPct(i5_tc), status: s5,
+      range: '✅ <30%  ⚠️ 30-50%  ❌ >50%',
+      desc: 'Proporción del cupo total de tarjetas que estás usando. Impacta tu score en DataCrédito y Transunión.',
+      bc: { v: i5_tc, mn: 0, mx: 100, t1: 30, t2: 50, dir: 'l', disabled: s5 === 'gray' }
+    },
+    {
+      num: 6, name: 'Flujo de Caja Neto',
+      val: (i6_flujo >= 0 ? '+$' : '-$') + fmt(Math.abs(i6_flujo)), status: s6,
+      range: '✅ >$0  ⚠️ =$0  ❌ <$0',
+      desc: 'Dinero que te sobra (o te falta) cada mes tras cubrir todos los gastos y deudas. Si es negativo, consumes patrimonio.',
+      bc: (() => {
+        const rng = Math.max(Math.abs(i6_flujo) * 1.5, ing_total * 0.3, 100000);
+        return { v: i6_flujo, mn: -rng, mx: rng, t1: 0, t2: 0, dir: 'h' };
+      })()
+    },
+    {
+      num: 7, name: 'Gasto en Vivienda (incl. servicios, adm. e impuestos)',
+      val: fmtPct(i7_vivienda), status: s7,
+      range: '✅ <30%  ⚠️ 30-40%  ❌ >40%',
+      desc: 'Porcentaje del ingreso destinado a vivienda, servicios, administración e impuestos. Superar el 40% limita el ahorro.',
+      bc: { v: i7_vivienda, mn: 0, mx: 60, t1: 30, t2: 40, dir: 'l' }
+    },
+    {
+      num: 8, name: 'Liquidez Personal',
+      val: fmtRatio(i8_liquidez), status: s8,
+      range: '✅ ≥1.0×  ⚠️ 0.5-0.9×  ❌ <0.5×',
+      desc: 'Relación entre activos líquidos y deudas de corto plazo. Un ratio menor a 1 indica riesgo de incumplimiento inmediato.',
+      bc: { v: i8_liquidez, mn: 0, mx: 2.5, t1: 0.5, t2: 1.0, dir: 'h' }
+    },
+    {
+      num: 9, name: 'CAGR Inversiones',
+      val: s9 === 'gray' ? 'Sin datos' : fmtPct(i9_cagr), status: s9,
+      range: '✅ >10%  ⚠️ 5-10%  ❌ <5%',
+      desc: 'Tasa de crecimiento anual compuesta de tu portafolio. Debe superar la inflación colombiana (~6-8%) para generar riqueza real.',
+      bc: { v: i9_cagr, mn: 0, mx: 20, t1: 5, t2: 10, dir: 'h', disabled: s9 === 'gray' }
+    },
+    {
+      num: 10, name: 'Deuda a Activos',
+      val: fmtPct(i10_deuda_act), status: s10,
+      range: '✅ <40%  ⚠️ 40-60%  ❌ >60%',
+      desc: 'Porcentaje de tus activos que fue financiado con deuda. Mide qué tan apalancada está tu posición patrimonial.',
+      bc: { v: i10_deuda_act, mn: 0, mx: 100, t1: 40, t2: 60, dir: 'l' }
+    },
+    {
+      num: 11, name: 'Ahorro para Jubilación',
+      val: fmtPct(i11_jubilacion), status: s11,
+      range: '✅ ≥15%  ⚠️ 5-14%  ❌ <5%',
+      desc: 'Porcentaje del ingreso destinado voluntariamente a pensión o AFC. El sistema colombiano requiere ahorro adicional para mantener el nivel de vida.',
+      bc: { v: i11_jubilacion, mn: 0, mx: 25, t1: 5, t2: 15, dir: 'h' }
+    },
+    {
+      num: 12, name: 'Relación Ingresos / Gastos',
+      val: gasto_total > 0 ? fmtRatio(i12_ig) : 'Sin datos', status: s12,
+      range: '✅ >1.2×  ⚠️ 1.0-1.2×  ❌ <1.0×',
+      desc: 'Por cada peso que gastas, cuánto estás generando. Un ratio superior a 1.2× indica que construyes patrimonio mes a mes.',
+      bc: { v: i12_ig, mn: 0, mx: 2, t1: 1.0, t2: 1.2, dir: 'h' }
+    },
+  ];
+
+  // == Renderizar ==
+  const container = document.getElementById('indices-container');
+  container.innerHTML = '';
+
+  indices.forEach((idx, i) => {
+    const s   = semaforo(idx.status);
+    const rec = getRec(idx.status, i);
+    const bc  = idx.bc;
+    const barHtml = makeBar(bc.v, bc.mn, bc.mx, bc.t1, bc.t2, bc.dir, bc.disabled);
+    container.innerHTML += `
+      <div class="idx">
+        <div class="idx-top">
+          <div><div class="idx-name">${idx.num}. ${idx.name}</div></div>
+          <div class="semaforo ${s.cls}" title="${s.label}">${s.icon}</div>
+        </div>
+        <div class="idx-val">${idx.val}</div>
+        <div class="idx-desc">${idx.desc}</div>
+        <div class="idx-range">${idx.range}</div>
+        ${barHtml}
+        <div class="idx-rec">${rec}</div>
+      </div>
+    `;
+  });
+
+  // Score global
+  document.getElementById('res-score').textContent = score + '/10';
+  document.getElementById('res-green').textContent = nGreen;
+  document.getElementById('res-amber').textContent = nAmber;
+  document.getElementById('res-red').textContent   = nRed;
+
+  // Registrar uso en contador
+  registrarCalculo();
+
+  // Mostrar resultados
+  document.getElementById('form-section').style.display = 'none';
+  const res = document.getElementById('results');
+  res.classList.add('visible');
+  res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetForm() {
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('form-section').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
