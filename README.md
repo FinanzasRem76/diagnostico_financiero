@@ -1,2 +1,3 @@
 # diagnostico_financiero
 Aplicativo de Indices Financieros
+By REM "Hice esta herramienta gratuita que calcula los 12 índices de salud financiera mas importantes en 2 minutos. Solo llenas tus datos y te dice exactamente dónde estás parado. Sin registro, sin datos personales. ¿Les sirve?. Este diagnóstico financiero personal es una herramienta profesional diseñada para evaluar tu salud económica de forma objetiva a través de 12 índices clave validados internacionalmente y adaptados al contexto colombiano. Al conocer tu situación real, podrás identificar fortalezas y puntos críticos para tomar decisiones informadas. Úsalo mensualmente como un "chequeo médico" de tus finanzas: mide, analiza, ajusta y repite. La consistencia es la clave del progreso financiero."
